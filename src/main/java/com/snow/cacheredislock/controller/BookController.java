@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * BookController
  *
- * @author Levin
- * @since 2018/6/06 0031
+ * @author 王鹏涛
+ * @since 2019年1月23日
  */
 @RestController
 @RequestMapping("/books")
@@ -19,7 +19,7 @@ public class BookController {
 
     @CacheLock(prefix = "books")
     @GetMapping
-    public String query(@CacheParam(name = "token") @RequestParam String token) {
+    public String query(@CacheParam(name = "token") String token,String name)   {
         return "success - " + token;
     }
 

@@ -4,8 +4,9 @@ import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Levin
- */
+ * @author 王鹏涛
+ * @since 2019年1月23日
+ * */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

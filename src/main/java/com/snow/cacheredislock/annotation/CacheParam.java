@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * 锁的参数
  *
- * @author Levin
+ * @author 王鹏涛
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

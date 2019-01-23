@@ -19,8 +19,8 @@ import java.lang.reflect.Method;
 /**
  * redis 方案
  *
- * @author Levin
- * @since 2018/6/12 0012
+ * @author 王鹏涛
+ * @since 2019年1月23日
  */
 @Aspect
 @Configuration
@@ -35,7 +35,10 @@ public class LockMethodInterceptor {
     private final StringRedisTemplate lockRedisTemplate;
     private final CacheKeyGenerator cacheKeyGenerator;
 
-
+    /**
+     * AspectJ使用org.aspectj.lang.JoinPoint接口表示目标类连接点对象，如果是环绕增强时，使用 org.aspectj.lang.ProceedingJoinPoint表示连接点对象，
+     * 该类是JoinPoint的子接口。任何一个增强方法都可以通过将第一个入参声明为JoinPoint访问到连接点上下文的信息。
+     * */
     @Around("execution(public * *(..)) && @annotation(com.snow.cacheredislock.annotation.CacheLock)")
     public Object interceptor(ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
@@ -49,7 +52,7 @@ public class LockMethodInterceptor {
             // 采用原生 API 来实现分布式锁
             final Boolean success = lockRedisTemplate.execute((RedisCallback<Boolean>) connection -> connection.set(lockKey.getBytes(), new byte[0], Expiration.from(lock.expire(), lock.timeUnit()), RedisStringCommands.SetOption.SET_IF_ABSENT));
             if (!success) {
-                // TODO 按理来说 我们应该抛出一个自定义的 CacheLockException 异常;这里偷下懒
+                // TODO 按理来说 我们应该抛出一个自定义的 CacheLockException
                 throw new RuntimeException("请勿重复请求");
             }
             try {
