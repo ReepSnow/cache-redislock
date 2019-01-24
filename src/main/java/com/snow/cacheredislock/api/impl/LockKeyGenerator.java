@@ -34,6 +34,14 @@ public class LockKeyGenerator implements CacheKeyGenerator {
         final Object[] args = pjp.getArgs();
         final Parameter[] parameters = method.getParameters();
         StringBuilder builder = new StringBuilder();
+        /**
+         * a,通过pjp.getArgs()获取入参参数值args，至于pjp.getArgs()的获取上面注释有解释
+         * b,
+         *  1，根据切点获取切点方法，然后获取切点方法的参数列表，
+         *  2，然后根据CacheParam这个注解的name字段的赋值（token），来获取需要对那些入参字段进行重复校验
+         *  3，通过遍历（1步骤中的）参数名称列表，拿到参数名称与（2步骤中的）name属性的值来判断是否相当，然后记录此时的位置i
+         * c 通过b步骤获取的位置值i，然后直接通过a步骤的值args，得到需要的值args[i]，从而就获取了需要拿到的前端参数token
+         */
         // TODO 默认解析方法里面带 CacheParam 注解的属性,如果没有尝试着解析实体对象中的
         for (int i = 0; i < parameters.length; i++) {
             final CacheParam annotation = parameters[i].getAnnotation(CacheParam.class);
